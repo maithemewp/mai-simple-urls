@@ -107,16 +107,18 @@ class Mai_Simple_Urls {
 	 * Count and redirect function.
 	 */
 	public function count_and_redirect() {
-
 		if ( ! is_singular( 'surl' ) ) {
 			return;
 		}
 
 		global $wp_query;
 
-		// Update the count.
 		$count = isset( $wp_query->post->_surl_count ) ? (int) $wp_query->post->_surl_count : 0;
-		update_post_meta( $wp_query->post->ID, '_surl_count', $count + 1 );
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			// Update the count.
+			update_post_meta( $wp_query->post->ID, '_surl_count', $count + 1 );
+		}
 
 		// Handle the redirect.
 		$redirect = isset( $wp_query->post->ID ) ? get_post_meta( $wp_query->post->ID, '_surl_redirect', true ) : '';
