@@ -3,7 +3,7 @@
  * Plugin Name: Mai Simple URLs
  * Plugin URI: https://bizbudding.com
  * GitHub Plugin URI: maithemewp/mai-simple-urls
- * Description: Simple URLs is a complete URL management system that allows you create, manage, and track outbound links from your site by using custom post types and 301 redirects.
+ * Description: Mai Simple URLs is a fork of the original Simple URLs plugin from StudioPress, before it became Lasso. It's a complete URL management system that allows you create, manage, and track outbound links from your site by using custom post types and 301 redirects.
  * Author: BizBudding
  * Author URI:  https://bizbudding.com
  * Version: 1.0.0
@@ -77,14 +77,8 @@ add_action( 'plugins_loaded', 'mai_surls_run' );
  * @return void
  */
 function mai_surls_run() {
-	if ( class_exists( 'Simple_Urls' ) && is_plugin_active( 'simple-urls/plugin.php' ) ) {
-		add_action( 'admin_notice', function() {
-			printf(
-				'<div class="notice notice-error is-dismissible"><p>%s.</p></div>',
-				__( 'Mai Simple URLs is a replacement for Simple URLs by Lasso. Please deactivate Simple URLs by Lasso in order to use Mai Simple URLs.', 'simple-urls' ),
-			);
-		});
-
+	if ( class_exists( 'Simple_Urls' ) ) {
+		add_action( 'admin_notices', 'mai_surl_admin_notice' );
 		return;
 	}
 
@@ -96,4 +90,19 @@ function mai_surls_run() {
 		require_once MAI_SIMPLE_URLS_DIR . '/includes/class-simple-urls-admin.php';
 		new Mai_Simple_Urls_Admin();
 	}
+}
+
+/**
+ * Adds admin notice if Lasso is running.
+ *
+ * @since 1.0.0
+ *
+ * @return void
+ */
+function mai_surl_admin_notice() {
+	printf( '<div class="notice notice-error is-dismissible"><p>%s&nbsp;&nbsp;<a class="button-primary" href="%s">%s</a></p></div>',
+		__( 'Mai Simple URLs is a replacement for Simple URLs by Lasso. Please deactivate Simple URLs by Lasso in order to use Mai Simple URLs.', 'simple-urls' ),
+		admin_url( 'plugins.php?s=Lasso+Lite' ),
+		__( 'Deactivate Now', 'simple-urls' )
+	);
 }
