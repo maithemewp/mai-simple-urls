@@ -17,8 +17,8 @@ And by avoiding page based redirects, which is the current trend in masking affi
 
 == Installation ==
 
-1. Upload the entire `simple-urls` folder to the `/wp-content/plugins/` directory
-1. DO NOT change the name of the `simple-urls` folder
+1. Upload the entire `mai-simple-urls` folder to the `/wp-content/plugins/` directory
+1. DO NOT change the name of the `mai-simple-urls` folder
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Navigate to `Settings > Permalinks` and save them. Yes, just click save. Trust me.
 1. Navigate to the `Simple URLs` menu
@@ -43,54 +43,3 @@ add_filter( 'simple_urls_slug', function(){
     return 'redirect-me';
 });
 ```
-
-== Screenshots ==
-
-1. The URL management screen
-2. The URL create/edit screen
-
-== Changelog ==
-
-= 1.0.0 =
-* Changed: Updated to Mai Simple URLs to keep the functionality how StudioPress had it prior to it becoming Lasso.
-
-= 0.9.9 =
-* Fixed URLs not properly redirecting.
-
-= 0.9.8 =
-* Coding standards.
-* Added composer.
-* Added Circle CI integration.
-* Added new filter to change the slug.
-* Added REST support to ensure Simple URLs appear in list when linking text.
-* Added cast string to int to avoid type error.
-
-= 0.9.7 =
-* WordPress compatibility.
-
-= 0.9.6 =
-* Add plugin header i18n
-* Add textdomain loader
-
-= 0.9.5 =
-* Changed messages and labels.
-* Updated textdomain.
-* Generated POT file.
-
-= 0.9.4 =
-* Fixed saving bug
-
-= 0.9.3 =
-* Removed capability line from the register function. Users with permission to edit posts can create/edit URLs.
-* Bumped to show compatibility with WordPress 3.0.4
-
-= 0.9.2 =
-* Fixed a type in the plugin URL
-* Bumped to show compatibility with WordPress 3.0.2
-
-= 0.9.1 =
-* Fixed bug with URLs with ampersands in them
-* Added `'with_front' => false` to the post type registration
-
-= 0.9 =
-* Initial Beta Release
