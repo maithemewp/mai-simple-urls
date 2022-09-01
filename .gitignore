@@ -14,6 +14,5 @@ node_modules
 vendor/*
 !vendor/autoload.php
 !vendor/composer
+!vendor/yahnis-elsts
 vendor/composer/installers
-vendor/composer/semver
-vendor/composer/xdebug-handler

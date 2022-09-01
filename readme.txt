@@ -51,6 +51,9 @@ add_filter( 'simple_urls_slug', function(){
 
 == Changelog ==
 
+= 1.0.0 =
+* Changed: Updated to Mai Simple URLs to keep the functionality how StudioPress had it prior to it becoming Lasso.
+
 = 0.9.9 =
 * Fixed URLs not properly redirecting.
 

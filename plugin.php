@@ -2,11 +2,12 @@
 /**
  * Plugin Name: Mai Simple URLs
  * Plugin URI: https://bizbudding.com
+ * GitHub Plugin URI: maithemewp/mai-simple-urls
  * Description: Simple URLs is a complete URL management system that allows you create, manage, and track outbound links from your site by using custom post types and 301 redirects.
  * Author: BizBudding
  * Author URI:  https://bizbudding.com
  * Version: 1.0.0
-
+ *
  * Text Domain: mai-simple-urls
  * Domain Path: /languages
 

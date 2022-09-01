@@ -2,7 +2,7 @@
 /**
  * Simple URLs file.
  *
- * @package mai-simple-urls
+ * @package simple-urls
  */
 
 /**
@@ -14,16 +14,61 @@ class Simple_Urls {
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_action( 'plugins_loaded',    array( $this, 'load_textdomain' ) );
-		add_action( 'init',              array( $this, 'register_post_type' ) );
-		add_action( 'template_redirect', array( $this, 'count_and_redirect' ) );
+		$this->run();
+	}
+
+	public function run() {
+		// Include vendor libraries.
+		require_once __DIR__ . '/vendor/autoload.php';
+
+		add_action( 'plugins_loaded',    [ $this, 'updater' ] );
+		add_action( 'plugins_loaded',    [ $this, 'load_textdomain' ] );
+		add_action( 'init',              [ $this, 'register_post_type' ] );
+		add_action( 'template_redirect', [ $this, 'count_and_redirect' ] );
+	}
+
+	/**
+	 * Setup the updater.
+	 *
+	 * composer require yahnis-elsts/plugin-update-checker
+	 *
+	 * @uses https://github.com/YahnisElsts/plugin-update-checker/
+	 */
+	public function updater() {
+		// Bail if current user cannot manage plugins.
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			return;
+		}
+
+		// Bail if plugin updater is not loaded.
+		if ( ! class_exists( 'Puc_v4_Factory' ) ) {
+			return;
+		}
+
+		// Setup the updater.
+		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-simple-urls/', __FILE__, 'simple-urls' );
+
+		// Maybe set github api token.
+		if ( defined( 'MAI_GITHUB_API_TOKEN' ) ) {
+			$updater->setAuthentication( MAI_GITHUB_API_TOKEN );
+		}
+
+		// Add icons for Dashboard > Updates screen.
+		if ( function_exists( 'mai_get_updater_icons' ) && $icons = mai_get_updater_icons() ) {
+			$updater->addResultFilter(
+				function ( $info ) use ( $icons ) {
+					$info->icons = $icons;
+					return $info;
+				}
+			);
+		}
 	}
 
 	/**
 	 * Load textdomain.
 	 */
 	public function load_textdomain() {
-		load_plugin_textdomain( 'mai-simple-urls', false, SIMPLE_URLS_DIR . '/languages' );
+		load_plugin_textdomain( 'simple-urls', false, SIMPLE_URLS_DIR . '/languages' );
 	}
 
 	/**
@@ -36,33 +81,33 @@ class Simple_Urls {
 		$rewrite_slug_default = 'go';
 
 		$labels = array(
-			'name'               => __( 'Simple URLs', 'mai-simple-urls' ),
-			'singular_name'      => __( 'URL', 'mai-simple-urls' ),
-			'add_new'            => __( 'Add New', 'mai-simple-urls' ),
-			'add_new_item'       => __( 'Add New URL', 'mai-simple-urls' ),
-			'edit'               => __( 'Edit', 'mai-simple-urls' ),
-			'edit_item'          => __( 'Edit URL', 'mai-simple-urls' ),
-			'new_item'           => __( 'New URL', 'mai-simple-urls' ),
-			'view'               => __( 'View URL', 'mai-simple-urls' ),
-			'view_item'          => __( 'View URL', 'mai-simple-urls' ),
-			'search_items'       => __( 'Search URL', 'mai-simple-urls' ),
-			'not_found'          => __( 'No URLs found', 'mai-simple-urls' ),
-			'not_found_in_trash' => __( 'No URLs found in Trash', 'mai-simple-urls' ),
+			'name'               => __( 'Simple URLs', 'simple-urls' ),
+			'singular_name'      => __( 'URL', 'simple-urls' ),
+			'add_new'            => __( 'Add New', 'simple-urls' ),
+			'add_new_item'       => __( 'Add New URL', 'simple-urls' ),
+			'edit'               => __( 'Edit', 'simple-urls' ),
+			'edit_item'          => __( 'Edit URL', 'simple-urls' ),
+			'new_item'           => __( 'New URL', 'simple-urls' ),
+			'view'               => __( 'View URL', 'simple-urls' ),
+			'view_item'          => __( 'View URL', 'simple-urls' ),
+			'search_items'       => __( 'Search URL', 'simple-urls' ),
+			'not_found'          => __( 'No URLs found', 'simple-urls' ),
+			'not_found_in_trash' => __( 'No URLs found in Trash', 'simple-urls' ),
 			'messages'           => array(
 				0  => '', // Unused. Messages start at index 1.
 				/* translators: %s: link for the update */
-				1  => __( 'URL updated. <a href="%s">View URL</a>', 'mai-simple-urls' ),
-				2  => __( 'Custom field updated.', 'mai-simple-urls' ),
-				3  => __( 'Custom field deleted.', 'mai-simple-urls' ),
-				4  => __( 'URL updated.', 'mai-simple-urls' ),
+				1  => __( 'URL updated. <a href="%s">View URL</a>', 'simple-urls' ),
+				2  => __( 'Custom field updated.', 'simple-urls' ),
+				3  => __( 'Custom field deleted.', 'simple-urls' ),
+				4  => __( 'URL updated.', 'simple-urls' ),
 				/* translators: %s: date and time of the revision */
-				5  => isset( $_GET['revision'] ) ? sprintf( __( 'Post restored to revision from %s', 'mai-simple-urls' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // phpcs:ignore
+				5  => isset( $_GET['revision'] ) ? sprintf( __( 'Post restored to revision from %s', 'simple-urls' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // phpcs:ignore
 				/* translators: %s: URL to view */
-				6  => __( 'URL updated. <a href="%s">View URL</a>', 'mai-simple-urls' ),
-				7  => __( 'URL saved.', 'mai-simple-urls' ),
-				8  => __( 'URL submitted.', 'mai-simple-urls' ),
-				9  => __( 'URL scheduled', 'mai-simple-urls' ),
-				10 => __( 'URL draft updated.', 'mai-simple-urls' ),
+				6  => __( 'URL updated. <a href="%s">View URL</a>', 'simple-urls' ),
+				7  => __( 'URL saved.', 'simple-urls' ),
+				8  => __( 'URL submitted.', 'simple-urls' ),
+				9  => __( 'URL scheduled', 'simple-urls' ),
+				10 => __( 'URL draft updated.', 'simple-urls' ),
 			),
 		);
 
@@ -140,6 +185,5 @@ class Simple_Urls {
 			wp_safe_redirect( home_url(), 302 );
 			exit;
 		}
-
 	}
 }

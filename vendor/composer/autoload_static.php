@@ -6,7 +6,15 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitae126dd786b410b2a80f6eddd62acd52
 {
+    public static $files = array (
+        '7166494aeff09009178f278afd86c83f' => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker/load-v4p13.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'D' => 
+        array (
+            'Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => 55,
+        ),
         'C' => 
         array (
             'Composer\\Installers\\' => 20,
@@ -14,6 +22,10 @@ class ComposerStaticInitae126dd786b410b2a80f6eddd62acd52
     );
 
     public static $prefixDirsPsr4 = array (
+        'Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dealerdirect/phpcodesniffer-composer-installer/src',
+        ),
         'Composer\\Installers\\' => 
         array (
             0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
