@@ -1,12 +1,12 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'be86456dc8094dd9f0b62199bc8225cc4201ebb8',
-        'name' => 'studiopress/simple-urls',
+        'reference' => '08a98521a9470311cb787c96603f8f2847816a5b',
+        'name' => 'maithemewp/simple-urls',
         'dev' => false,
     ),
     'versions' => array(
@@ -19,13 +19,22 @@
             'reference' => 'c29dc4b93137acb82734f672c37e029dfbd95b35',
             'dev_requirement' => false,
         ),
-        'studiopress/simple-urls' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
+        'maithemewp/simple-urls' => array(
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'be86456dc8094dd9f0b62199bc8225cc4201ebb8',
+            'reference' => '08a98521a9470311cb787c96603f8f2847816a5b',
+            'dev_requirement' => false,
+        ),
+        'yahnis-elsts/plugin-update-checker' => array(
+            'pretty_version' => 'v4.13',
+            'version' => '4.13.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../yahnis-elsts/plugin-update-checker',
+            'aliases' => array(),
+            'reference' => '6eb27a6911e0e0880d09e5b11f577d3f688f7da7',
             'dev_requirement' => false,
         ),
     ),

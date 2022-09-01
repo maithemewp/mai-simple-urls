@@ -6,6 +6,10 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitae126dd786b410b2a80f6eddd62acd52
 {
+    public static $files = array (
+        '7166494aeff09009178f278afd86c83f' => __DIR__ . '/..' . '/yahnis-elsts/plugin-update-checker/load-v4p13.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'C' => 
         array (

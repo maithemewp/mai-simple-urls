@@ -1,19 +1,26 @@
 <?php
 /**
- * Simple URLs file.
+ * Mai_Simple_Urls file.
  *
- * @package mai-simple-urls
+ * @package simple-urls
  */
 
 /**
- * Simple URLs class.
+ * Mai_Simple_Urls class.
  */
-class Simple_Urls {
+class Mai_Simple_Urls {
 
 	/**
 	 * Constructor.
 	 */
 	public function __construct() {
+		$this->run();
+	}
+
+	/**
+	 * Run.
+	 */
+	public function run() {
 		add_action( 'plugins_loaded',    array( $this, 'load_textdomain' ) );
 		add_action( 'init',              array( $this, 'register_post_type' ) );
 		add_action( 'template_redirect', array( $this, 'count_and_redirect' ) );
@@ -23,7 +30,7 @@ class Simple_Urls {
 	 * Load textdomain.
 	 */
 	public function load_textdomain() {
-		load_plugin_textdomain( 'mai-simple-urls', false, SIMPLE_URLS_DIR . '/languages' );
+		load_plugin_textdomain( 'simple-urls', false, MAI_SIMPLE_URLS_DIR . '/languages' );
 	}
 
 	/**
@@ -36,33 +43,33 @@ class Simple_Urls {
 		$rewrite_slug_default = 'go';
 
 		$labels = array(
-			'name'               => __( 'Simple URLs', 'mai-simple-urls' ),
-			'singular_name'      => __( 'URL', 'mai-simple-urls' ),
-			'add_new'            => __( 'Add New', 'mai-simple-urls' ),
-			'add_new_item'       => __( 'Add New URL', 'mai-simple-urls' ),
-			'edit'               => __( 'Edit', 'mai-simple-urls' ),
-			'edit_item'          => __( 'Edit URL', 'mai-simple-urls' ),
-			'new_item'           => __( 'New URL', 'mai-simple-urls' ),
-			'view'               => __( 'View URL', 'mai-simple-urls' ),
-			'view_item'          => __( 'View URL', 'mai-simple-urls' ),
-			'search_items'       => __( 'Search URL', 'mai-simple-urls' ),
-			'not_found'          => __( 'No URLs found', 'mai-simple-urls' ),
-			'not_found_in_trash' => __( 'No URLs found in Trash', 'mai-simple-urls' ),
+			'name'               => __( 'Simple URLs', 'simple-urls' ),
+			'singular_name'      => __( 'URL', 'simple-urls' ),
+			'add_new'            => __( 'Add New', 'simple-urls' ),
+			'add_new_item'       => __( 'Add New URL', 'simple-urls' ),
+			'edit'               => __( 'Edit', 'simple-urls' ),
+			'edit_item'          => __( 'Edit URL', 'simple-urls' ),
+			'new_item'           => __( 'New URL', 'simple-urls' ),
+			'view'               => __( 'View URL', 'simple-urls' ),
+			'view_item'          => __( 'View URL', 'simple-urls' ),
+			'search_items'       => __( 'Search URL', 'simple-urls' ),
+			'not_found'          => __( 'No URLs found', 'simple-urls' ),
+			'not_found_in_trash' => __( 'No URLs found in Trash', 'simple-urls' ),
 			'messages'           => array(
 				0  => '', // Unused. Messages start at index 1.
 				/* translators: %s: link for the update */
-				1  => __( 'URL updated. <a href="%s">View URL</a>', 'mai-simple-urls' ),
-				2  => __( 'Custom field updated.', 'mai-simple-urls' ),
-				3  => __( 'Custom field deleted.', 'mai-simple-urls' ),
-				4  => __( 'URL updated.', 'mai-simple-urls' ),
+				1  => __( 'URL updated. <a href="%s">View URL</a>', 'simple-urls' ),
+				2  => __( 'Custom field updated.', 'simple-urls' ),
+				3  => __( 'Custom field deleted.', 'simple-urls' ),
+				4  => __( 'URL updated.', 'simple-urls' ),
 				/* translators: %s: date and time of the revision */
-				5  => isset( $_GET['revision'] ) ? sprintf( __( 'Post restored to revision from %s', 'mai-simple-urls' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // phpcs:ignore
+				5  => isset( $_GET['revision'] ) ? sprintf( __( 'Post restored to revision from %s', 'simple-urls' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // phpcs:ignore
 				/* translators: %s: URL to view */
-				6  => __( 'URL updated. <a href="%s">View URL</a>', 'mai-simple-urls' ),
-				7  => __( 'URL saved.', 'mai-simple-urls' ),
-				8  => __( 'URL submitted.', 'mai-simple-urls' ),
-				9  => __( 'URL scheduled', 'mai-simple-urls' ),
-				10 => __( 'URL draft updated.', 'mai-simple-urls' ),
+				6  => __( 'URL updated. <a href="%s">View URL</a>', 'simple-urls' ),
+				7  => __( 'URL saved.', 'simple-urls' ),
+				8  => __( 'URL submitted.', 'simple-urls' ),
+				9  => __( 'URL scheduled', 'simple-urls' ),
+				10 => __( 'URL draft updated.', 'simple-urls' ),
 			),
 		);
 
@@ -79,18 +86,19 @@ class Simple_Urls {
 		register_post_type(
 			$slug,
 			array(
-				'labels'              => $labels,
-				'public'              => true,
 				'exclude_from_search' => apply_filters( 'simple_urls_exclude_from_search', true ),
-				'show_ui'             => true,
-				'query_var'           => true,
+				'labels'              => $labels,
+				'menu_icon'           => 'dashicons-admin-links',
 				'menu_position'       => 20,
-				'supports'            => $supports_array,
+				'public'              => true,
+				'query_var'           => true,
 				'rewrite'             => array(
 					'slug'       => $rewrite_slug,
 					'with_front' => false,
 				),
 				'show_in_rest'        => true,
+				'show_ui'             => true,
+				'supports'            => $supports_array,
 			)
 		);
 	}
@@ -99,16 +107,18 @@ class Simple_Urls {
 	 * Count and redirect function.
 	 */
 	public function count_and_redirect() {
-
 		if ( ! is_singular( 'surl' ) ) {
 			return;
 		}
 
 		global $wp_query;
 
-		// Update the count.
 		$count = isset( $wp_query->post->_surl_count ) ? (int) $wp_query->post->_surl_count : 0;
-		update_post_meta( $wp_query->post->ID, '_surl_count', $count + 1 );
+
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			// Update the count.
+			update_post_meta( $wp_query->post->ID, '_surl_count', $count + 1 );
+		}
 
 		// Handle the redirect.
 		$redirect = isset( $wp_query->post->ID ) ? get_post_meta( $wp_query->post->ID, '_surl_redirect', true ) : '';
@@ -140,6 +150,5 @@ class Simple_Urls {
 			wp_safe_redirect( home_url(), 302 );
 			exit;
 		}
-
 	}
 }

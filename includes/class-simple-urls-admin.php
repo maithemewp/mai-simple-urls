@@ -1,24 +1,24 @@
 <?php
 /**
- * Simple_Urls_Admin file.
+ * Mai_Simple_Urls_Admin file.
  *
- * @package mai-simple-urls
+ * @package simple-urls
  */
 
 /**
- * Simple_Urls_Admin class.
+ * Mai_Simple_Urls_Admin class.
  */
-class Simple_Urls_Admin {
+class Mai_Simple_Urls_Admin {
 
 	/**
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_filter( 'post_updated_messages',      array( $this, 'updated_message' ) );
-		add_action( 'admin_menu',                 array( $this, 'add_meta_box' ) );
-		add_action( 'save_post',                  array( $this, 'meta_box_save' ), 1, 2 );
+		add_filter( 'post_updated_messages', array( $this, 'updated_message' ) );
+		add_action( 'admin_menu', array( $this, 'add_meta_box' ) );
+		add_action( 'save_post', array( $this, 'meta_box_save' ), 1, 2 );
 		add_action( 'manage_posts_custom_column', array( $this, 'columns_data' ) );
-		add_filter( 'manage_edit-surl_columns',   array( $this, 'columns_filter' ) );
+		add_filter( 'manage_edit-surl_columns', array( $this, 'columns_filter' ) );
 	}
 
 	/**
@@ -32,10 +32,10 @@ class Simple_Urls_Admin {
 
 		$columns = array(
 			'cb'        => '<input type="checkbox" />',
-			'title'     => __( 'Title', 'mai-simple-urls' ),
-			'url'       => __( 'Redirect to', 'mai-simple-urls' ),
-			'permalink' => __( 'Permalink', 'mai-simple-urls' ),
-			'clicks'    => __( 'Clicks', 'mai-simple-urls' ),
+			'title'     => __( 'Title', 'simple-urls' ),
+			'url'       => __( 'Redirect to', 'simple-urls' ),
+			'permalink' => __( 'Permalink', 'simple-urls' ),
+			'clicks'    => __( 'Clicks', 'simple-urls' ),
 		);
 
 		return $columns;
@@ -68,6 +68,7 @@ class Simple_Urls_Admin {
 		} elseif ( 'clicks' === $column ) {
 			echo esc_html( $count ? $count : 0 );
 		}
+
 	}
 
 	/**
@@ -92,13 +93,14 @@ class Simple_Urls_Admin {
 		}
 
 		return $messages;
+
 	}
 
 	/**
 	 * Add metabox.
 	 */
 	public function add_meta_box() {
-		add_meta_box( 'surl', __( 'URL Information', 'mai-simple-urls' ), array( $this, 'meta_box' ), 'surl', 'normal', 'high' );
+		add_meta_box( 'surl', __( 'URL Information', 'simple-urls' ), array( $this, 'meta_box' ), 'surl', 'normal', 'high' );
 	}
 
 	/**
@@ -110,13 +112,14 @@ class Simple_Urls_Admin {
 
 		printf( '<input type="hidden" name="_surl_nonce" value="%s" />', esc_attr( wp_create_nonce( plugin_basename( __FILE__ ) ) ) );
 
-		printf( '<p><label for="%s">%s</label></p>', '_surl_redirect', esc_html__( 'Redirect URI', 'mai-simple-urls' ) );
+		printf( '<p><label for="%s">%s</label></p>', '_surl_redirect', esc_html__( 'Redirect URI', 'simple-urls' ) );
 		printf( '<p><input style="%s" type="text" name="%s" id="%s" value="%s" /></p>', 'width: 99%;', '_surl_redirect', '_surl_redirect', esc_attr( get_post_meta( $post->ID, '_surl_redirect', true ) ) );
-		printf( '<p><span class="description">%s</span></p>', esc_html__( 'This is the URL that the Redirect Link you create on this page will redirect to when accessed in a web browser.', 'mai-simple-urls' ) );
+		printf( '<p><span class="description">%s</span></p>', esc_html__( 'This is the URL that the Redirect Link you create on this page will redirect to when accessed in a web browser.', 'simple-urls' ) );
 
 		$count = isset( $post->ID ) ? get_post_meta( $post->ID, '_surl_count', true ) : 0;
 		/* translators: %d is the counter of clicks. */
-		echo '<p>' . sprintf( esc_html__( 'This URL has been accessed %d times', 'mai-simple-urls' ), esc_attr( $count ) ) . '</p>';
+		echo '<p>' . sprintf( esc_html__( 'This URL has been accessed %d times', 'simple-urls' ), esc_attr( $count ) ) . '</p>';
+
 	}
 
 	/**
@@ -163,5 +166,6 @@ class Simple_Urls_Admin {
 			// Delete if blank.
 			delete_post_meta( $post->ID, $key );
 		}
+
 	}
 }
