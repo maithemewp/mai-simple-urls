@@ -1,14 +1,14 @@
 <?php
 /**
- * Simple_Urls_Admin file.
+ * Mai_Simple_Urls_Admin file.
  *
  * @package simple-urls
  */
 
 /**
- * Simple_Urls_Admin class.
+ * Mai_Simple_Urls_Admin class.
  */
-class Simple_Urls_Admin {
+class Mai_Simple_Urls_Admin {
 
 	/**
 	 * Constructor.

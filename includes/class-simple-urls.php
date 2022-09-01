@@ -1,14 +1,14 @@
 <?php
 /**
- * Simple URLs file.
+ * Mai_Simple_Urls file.
  *
  * @package simple-urls
  */
 
 /**
- * Simple URLs class.
+ * Mai_Simple_Urls class.
  */
-class Simple_Urls {
+class Mai_Simple_Urls {
 
 	/**
 	 * Constructor.
@@ -17,58 +17,20 @@ class Simple_Urls {
 		$this->run();
 	}
 
-	public function run() {
-		// Include vendor libraries.
-		require_once __DIR__ . '/vendor/autoload.php';
-
-		add_action( 'plugins_loaded',    [ $this, 'updater' ] );
-		add_action( 'plugins_loaded',    [ $this, 'load_textdomain' ] );
-		add_action( 'init',              [ $this, 'register_post_type' ] );
-		add_action( 'template_redirect', [ $this, 'count_and_redirect' ] );
-	}
-
 	/**
-	 * Setup the updater.
-	 *
-	 * composer require yahnis-elsts/plugin-update-checker
-	 *
-	 * @uses https://github.com/YahnisElsts/plugin-update-checker/
+	 * Run.
 	 */
-	public function updater() {
-		// Bail if current user cannot manage plugins.
-		if ( ! current_user_can( 'install_plugins' ) ) {
-			return;
-		}
-
-		// Bail if plugin updater is not loaded.
-		if ( ! class_exists( 'Puc_v4_Factory' ) ) {
-			return;
-		}
-
-		// Setup the updater.
-		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-simple-urls/', __FILE__, 'simple-urls' );
-
-		// Maybe set github api token.
-		if ( defined( 'MAI_GITHUB_API_TOKEN' ) ) {
-			$updater->setAuthentication( MAI_GITHUB_API_TOKEN );
-		}
-
-		// Add icons for Dashboard > Updates screen.
-		if ( function_exists( 'mai_get_updater_icons' ) && $icons = mai_get_updater_icons() ) {
-			$updater->addResultFilter(
-				function ( $info ) use ( $icons ) {
-					$info->icons = $icons;
-					return $info;
-				}
-			);
-		}
+	public function run() {
+		add_action( 'plugins_loaded',    array( $this, 'load_textdomain' ) );
+		add_action( 'init',              array( $this, 'register_post_type' ) );
+		add_action( 'template_redirect', array( $this, 'count_and_redirect' ) );
 	}
 
 	/**
 	 * Load textdomain.
 	 */
 	public function load_textdomain() {
-		load_plugin_textdomain( 'simple-urls', false, SIMPLE_URLS_DIR . '/languages' );
+		load_plugin_textdomain( 'simple-urls', false, MAI_SIMPLE_URLS_DIR . '/languages' );
 	}
 
 	/**

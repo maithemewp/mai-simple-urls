@@ -8,27 +8,92 @@
  * Author URI:  https://bizbudding.com
  * Version: 1.0.0
  *
- * Text Domain: mai-simple-urls
+ * Text Domain: simple-urls
  * Domain Path: /languages
 
  * License: GNU General Public License v2.0 (or later)
  * License URI: http://www.opensource.org/licenses/gpl-license.php
  *
- * @package mai-simple-urls
+ * @package simple-urls
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SIMPLE_URLS_DIR', plugin_dir_path( __FILE__ ) );
-define( 'SIMPLE_URLS_URL', plugins_url( '', __FILE__ ) );
+define( 'MAI_SIMPLE_URLS_DIR', plugin_dir_path( __FILE__ ) );
+define( 'MAI_SIMPLE_URLS_URL', plugins_url( '', __FILE__ ) );
 
-require_once SIMPLE_URLS_DIR . '/includes/class-simple-urls.php';
+// Include vendor libraries.
+require_once __DIR__ . '/vendor/autoload.php';
 
-new Simple_Urls();
+add_action( 'plugins_loaded', 'mai_surls_updater' );
+/**
+ * Setup the updater.
+ * composer require yahnis-elsts/plugin-update-checker
+ *
+ * @since 1.0.0
+ *
+ * @uses https://github.com/YahnisElsts/plugin-update-checker/
+ *
+ * @return void
+ */
+function mai_surls_updater() {
+	// Bail if current user cannot manage plugins.
+	if ( ! current_user_can( 'install_plugins' ) ) {
+		return;
+	}
 
-if ( is_admin() ) {
-	require_once SIMPLE_URLS_DIR . '/includes/class-simple-urls-admin.php';
-	new Simple_Urls_Admin();
+	// Bail if plugin updater is not loaded.
+	if ( ! class_exists( 'Puc_v4_Factory' ) ) {
+		return;
+	}
+
+	// Setup the updater.
+	$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-simple-urls/', __FILE__, 'simple-urls' );
+
+	// Maybe set github api token.
+	if ( defined( 'MAI_GITHUB_API_TOKEN' ) ) {
+		$updater->setAuthentication( MAI_GITHUB_API_TOKEN );
+	}
+
+	// Add icons for Dashboard > Updates screen.
+	if ( function_exists( 'mai_get_updater_icons' ) && $icons = mai_get_updater_icons() ) {
+		$updater->addResultFilter(
+			function ( $info ) use ( $icons ) {
+				$info->icons = $icons;
+				return $info;
+			}
+		);
+	}
+}
+
+add_action( 'plugins_loaded', 'mai_surls_run' );
+/**
+ * Runs plugin after checking if Lasso is already running.
+ *
+ * @since 1.0.0
+ *
+ * @return void
+ */
+function mai_surls_run() {
+	if ( class_exists( 'Simple_Urls' ) && is_plugin_active( 'simple-urls/plugin.php' ) ) {
+		add_action( 'admin_notice', function() {
+			printf(
+				'<div class="notice notice-error is-dismissible"><p>%s.</p></div>',
+				__( 'Mai Simple URLs is a replacement for Simple URLs by Lasso. Please deactivate Simple URLs by Lasso in order to use Mai Simple URLs.', 'simple-urls' ),
+			);
+		});
+
+		return;
+	}
+
+	require_once MAI_SIMPLE_URLS_DIR . '/includes/class-simple-urls.php';
+
+	new Mai_Simple_Urls();
+
+	if ( is_admin() ) {
+		require_once MAI_SIMPLE_URLS_DIR . '/includes/class-simple-urls-admin.php';
+		new Mai_Simple_Urls_Admin();
+	}
 }
