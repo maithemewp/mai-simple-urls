@@ -1,0 +1,36 @@
+{
+	"name": "studiopress/simple-urls",
+	"type": "wordpress-plugin",
+	"description": "Simple URLs is a complete URL management system that allows you create, manage, and track outbound links from your site by using custom post types and 301 red  irects.",
+	"homepage": "https://github.com/maithemewp/mai-simple-urls",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php":"^5.6 || ^7 || ^8",
+		"composer/installers": "^2"
+	},
+	"require-dev": {
+		"php": "^5.6 || ^7 || ^8",
+		"dealerdirect/phpcodesniffer-composer-installer": "*",
+		"squizlabs/php_codesniffer": "^3.3.1",
+		"phpcompatibility/phpcompatibility-wp": "*",
+		"wp-coding-standards/wpcs": "^1"
+	},
+	"config": {
+		"sort-order": true,
+		"allow-plugins": {
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"scripts": {
+		"phpcs": "phpcs --standard=WordPress --ignore=vendor/,node_modules/,assets/ --extensions=php -p ./",
+		"phpcs-compat": "phpcs --extensions=php --standard=PHPCompatibilityWP --ignore=vendor/,node_modules/,assets/ --runtime-set testVersion 5.6- -p ./",
+		"phpcbf": "phpcbf --standard=WordPress --ignore=vendor/,node_modules/,assets/ --extensions=php -p ./"
+	},
+	"support": {
+		"issues": "https://github.com/maithemewp/mai-simple-urls/issues",
+		"source": "https://github.com/maithemewp/mai-simple-urls"
+	}
+}
