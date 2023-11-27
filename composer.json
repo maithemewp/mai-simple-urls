@@ -7,7 +7,7 @@
 	"require": {
 		"php":"^5.6 || ^7 || ^8",
 		"composer/installers": "^2",
-		"yahnis-elsts/plugin-update-checker": "^4.13"
+		"yahnis-elsts/plugin-update-checker": "^5"
 	},
 	"require-dev": {
 		"php": "^5.6 || ^7 || ^8",

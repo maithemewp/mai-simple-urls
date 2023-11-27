@@ -6,7 +6,7 @@
  * Description: Mai Simple URLs is a fork of the original Simple URLs plugin from StudioPress, before it became Lasso. It's a complete URL management system that allows you create, manage, and track outbound links from your site by using custom post types and 301 redirects.
  * Author: BizBudding
  * Author URI:  https://bizbudding.com
- * Version: 1.0.0
+ * Version: 1.0.1
  *
  * Text Domain: simple-urls
  * Domain Path: /languages
@@ -20,6 +20,9 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+// Must be at the top of the file.
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 define( 'MAI_SIMPLE_URLS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'MAI_SIMPLE_URLS_URL', plugins_url( '', __FILE__ ) );
@@ -39,18 +42,13 @@ add_action( 'plugins_loaded', 'mai_surls_updater' );
  * @return void
  */
 function mai_surls_updater() {
-	// Bail if current user cannot manage plugins.
-	if ( ! current_user_can( 'install_plugins' ) ) {
-		return;
-	}
-
 	// Bail if plugin updater is not loaded.
-	if ( ! class_exists( 'Puc_v4_Factory' ) ) {
+	if ( ! class_exists( 'YahnisElsts\PluginUpdateChecker\v5\PucFactory' ) ) {
 		return;
 	}
 
 	// Setup the updater.
-	$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-simple-urls/', __FILE__, 'simple-urls' );
+	$updater = PucFactory::buildUpdateChecker( 'https://github.com/maithemewp/mai-simple-urls/', __FILE__, 'simple-urls' );
 
 	// Maybe set github api token.
 	if ( defined( 'MAI_GITHUB_API_TOKEN' ) ) {
