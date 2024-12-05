@@ -2,7 +2,7 @@
 Contributors: jivedig, nathanrice, studiopress, cliffpaulick, marksabbath, modernnerd
 Tags: redirect, click tracking, custom post types
 Requires at least: 3.0
-Tested up to: 5.2.2
+Tested up to: 6.7.1
 Stable tag: 0.9.9
 
 Mai Simple URLs is a complete URL management system that allows you create, manage, and track outbound links from your site.
