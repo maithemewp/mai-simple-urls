@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.1 (12/5/25)
+* Changed: Updated the updater.
+
 ## 1.0.0 (9/1/22)
 * Added: Show admin notice and stop running this plugin if Simple URLs by Lasso is active.
 * Changed: Updated to Mai Simple URLs to keep the functionality how StudioPress had it prior to it becoming Lasso.
