@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.4 (5/26/26)
+* Changed: Removed `node_modules` from version control (dev-only files committed in error; not used at runtime).
+
 ## 1.0.3 (5/26/26)
 * Changed: Updated the updater for PHP 8.4 support.
 
