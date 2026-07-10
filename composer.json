@@ -15,7 +15,7 @@
         "squizlabs/php_codesniffer": "^3.3.1",
         "phpcompatibility/phpcompatibility-wp": "*",
         "wp-coding-standards/wpcs": "^1",
-        "maithemewp/deployable-guard": "^1"
+        "bizbudding/deployable-guard": "^1"
     },
     "config": {
         "sort-order": true,
@@ -47,7 +47,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/maithemewp/deployable-guard"
+            "url": "https://github.com/bizbudding/deployable-guard"
         }
     ],
     "scripts-no-dev": {
