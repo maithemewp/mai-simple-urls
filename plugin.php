@@ -7,6 +7,7 @@
  * Author: BizBudding
  * Author URI:  https://bizbudding.com
  * Version: 1.0.4
+ * Requires PHP: 8.1
  *
  * Text Domain: simple-urls
  * Domain Path: /languages
